@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winkler | Meistertischlerei Mondseeland</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #F9F7F2;
+            --color-surface: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-muted: #57534E;
+            --color-accent: #286428;
+            --color-highlight: #E2B042;
+            --color-dark: #111110;
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accent: 'Playfair Display', serif;
+
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-24: 6rem;
+            --space-32: 8rem;
+
+            --text-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+            --text-sm: clamp(0.875rem, 1.8vw, 1rem);
+            --text-base: clamp(1rem, 2vw, 1.125rem);
+            --text-lg: clamp(1.125rem, 2.5vw, 1.375rem);
+            --text-xl: clamp(1.375rem, 3vw, 1.75rem);
+            --text-2xl: clamp(1.75rem, 4vw, 2.5rem);
+            --text-3xl: clamp(2.25rem, 5vw, 3.5rem);
+            --text-4xl: clamp(3rem, 7vw, 5.5rem);
+
+            --z-base: 0;
+            --z-raised: 10;
+            --z-sticky: 200;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        p { margin-bottom: 1.5rem; }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.2s ease;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            background: var(--color-accent);
+            color: white;
+            padding: 1rem;
+            z-index: 9999;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* --- MANDATORY STACKING CONTEXT --- */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: rgba(249, 247, 242, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--color-bg);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-overlay.is-active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-toggle {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1002;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: var(--text-xl);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--color-text);
+        }
+
+        .desktop-nav {
+            display: none;
+        }
+
+        @media (min-width: 769px) {
+            .desktop-nav {
+                display: flex;
+                gap: var(--space-8);
+            }
+            .nav-link {
+                font-family: var(--font-heading);
+                font-size: var(--text-xs);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 0.5rem 0;
+                position: relative;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--color-accent);
+                transition: width 0.3s ease;
+            }
+            .nav-link:hover::after { width: 100%; }
+            .nav-toggle { display: none; }
+        }
+
+        .hamburger {
+            width: 24px;
+            height: 18px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-text);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .mobile-nav-list { text-align: center; list-style: none; }
+        .mobile-nav-item { margin: var(--space-6) 0; }
+        .mobile-nav-link {
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.55; /* Increased opacity for better contrast */
+        }
+
+        .hero-overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-heading);
+            font-size: 15vw;
+            color: rgba(255,255,255,0.04);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-4);
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4); /* Better legibility */
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-accent);
+            font-style: italic;
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-8);
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45em;
+            padding: 1.25rem 2.5rem;
+            background: var(--color-accent);
+            color: white;
+            font-family: var(--font-heading);
+            font-size: var(--text-xs);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: var(--z-raised);
+            transition: 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .btn { padding: 1rem 1.75rem; width: fit-content; }
+        }
+
+        .btn:hover {
+            background: #1e4d1e;
+            transform: translateY(-2px);
+        }
+
+        /* --- Ticker --- */
+        .ticker-wrap {
+            background: var(--color-dark);
+            color: var(--color-bg);
+            padding: var(--space-4) 0;
+            overflow: hidden;
+        }
+
+        .ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 40s linear infinite;
+        }
+
+        .ticker-item {
+            padding: 0 var(--space-12);
+            font-family: var(--font-heading);
+            font-size: var(--text-xs);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- Sections --- */
+        .section {
+            padding: var(--space-24) 0;
+        }
+
+        .section-header {
+            margin-bottom: var(--space-16);
+            max-width: 700px;
+        }
+
+        .section-label {
+            font-family: var(--font-accent);
+            font-style: italic;
+            color: var(--color-accent);
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: var(--text-base);
+        }
+
+        /* --- 6 Pillars Grid --- */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .pillars-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+
+        .pillar-card {
+            background: var(--color-surface);
+            padding: var(--space-12);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .pillar-card { padding: var(--space-8); }
+        }
+
+        .pillar-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+        }
+
+        .pillar-header {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .pillar-num {
+            font-family: var(--font-accent);
+            font-style: italic;
+            font-size: var(--text-2xl);
+            color: var(--color-highlight);
+            line-height: 1;
+        }
+
+        .pillar-title {
+            font-size: var(--text-xl);
+            margin: 0;
+        }
+
+        /* --- Meister Split --- */
+        .meister-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            background: var(--color-surface);
+        }
+
+        @media (min-width: 769px) {
+            .meister-section { grid-template-columns: 1fr 1fr; }
+        }
+
+        .meister-img-wrapper {
+            height: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .meister-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .meister-content {
+            padding: clamp(2rem, 8vw, 6rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .quote {
+            font-family: var(--font-accent);
+            font-style: italic;
+            font-size: var(--text-lg);
+            line-height: 1.6;
+            margin-bottom: var(--space-8);
+            color: var(--color-text-muted);
+        }
+
+        .signature {
+            font-family: var(--font-accent);
+            font-style: italic;
+            font-size: var(--text-xl);
+            color: var(--color-accent);
+            margin-top: var(--space-4);
+        }
+
+        /* --- Details Masonry Grid --- */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-4);
+        }
+
+        .detail-item {
+            position: relative;
+            overflow: hidden;
+            background: #eee;
+            height: 450px; /* Fixed height for rows */
+        }
+
+        .detail-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .detail-item:hover img { transform: scale(1.05); }
+
+        .detail-lg { grid-column: span 12; }
+        .detail-sm { grid-column: span 12; }
+
+        @media (min-width: 769px) {
+            .detail-lg { grid-column: span 8; }
+            .detail-sm { grid-column: span 4; }
+            .detail-full { grid-column: span 12; height: 500px; }
+        }
+
+        /* --- Sticky Bonus --- */
+        .sticky-bonus {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            z-index: var(--z-sticky);
+            background: var(--color-highlight);
+            color: var(--color-dark);
+            padding: 0.875rem 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .sticky-bonus {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        .sticky-bonus:hover { transform: translateY(-3px); }
+
+        /* --- Footer --- */
+        .site-footer {
+            background: var(--color-dark);
+            color: #a1a1a1;
+            padding: var(--space-24) 0 var(--space-8);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-16);
+            margin-bottom: var(--space-16);
+        }
+
+        .footer-brand .logo { color: white; margin-bottom: var(--space-4); display: block; }
+        .footer-tagline { font-size: var(--text-sm); max-width: 320px; margin-bottom: var(--space-8); line-height: 1.6; }
+
+        .footer-heading {
+            color: white;
+            font-size: var(--text-base);
+            margin-bottom: var(--space-8);
+            letter-spacing: 0.1em;
+        }
+
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: var(--space-4); }
+        .footer-links a:hover { color: white; }
+
+        .contact-row {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45em;
+            margin-bottom: var(--space-4);
+            color: #d1d1d1;
+        }
+
+        .social-row {
+            display: flex;
+            gap: var(--space-4);
+            margin-top: var(--space-8);
+        }
+
+        .social-btn {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s ease;
+            color: white;
+        }
+
+        .social-btn:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: var(--space-8);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+            font-size: 0.75rem;
+        }
+
+        @media (min-width: 769px) {
+            .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+        }
+
+        /* --- Modals --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-6);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.is-active { opacity: 1; visibility: visible; }
+
+        .modal-card {
+            background: var(--color-surface);
+            max-width: 480px;
+            width: 100%;
+            padding: var(--space-12);
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        /* --- GDPR Banner --- */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-accent);
+            color: white;
+            padding: var(--space-4) 0;
+            z-index: 500;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+        .cookie-banner.is-active { transform: translateY(0); }
+        .cookie-inner { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); }
+
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        [data-lucide] {
+            display: inline-block;
+            vertical-align: middle;
+            flex-shrink: 0;
+            line-height: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<!-- DEMO NOTICE BANNER - benedictjaros.com -->
+<style>
+#__demo_spacer{display:block;}
+#__demo_notice,#__demo_notice *{box-sizing:border-box;margin:0;padding:0;}
+#__demo_notice{
+  position:fixed;top:0;left:0;right:0;z-index:99999;
+  background:rgba(9,9,11,.97);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-family:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+}
+#__demo_inner{
+  max-width:1280px;margin:0 auto;
+  padding:0 44px 0 18px;min-height:38px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+#__demo_dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:#f5c842;box-shadow:0 0 7px rgba(245,200,66,.55);}
+#__demo_label{color:#f5c842;font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;flex-shrink:0;}
+#__demo_divider{color:rgba(255,255,255,.15);font-size:12px;flex-shrink:0;}
+#__demo_text{color:rgba(255,255,255,.45);font-size:11.5px;line-height:1.45;flex:1 1 160px;}
+#__demo_links{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+#__demo_links a{
+  color:rgba(255,255,255,.38);font-size:11px;text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.14);
+  transition:color .15s,border-color .15s;white-space:nowrap;
+}
+#__demo_links a:hover{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.4);}
+#__demo_link_sep{color:rgba(255,255,255,.15);font-size:10px;}
+#__demo_close{
+  position:absolute;right:0;top:0;bottom:0;width:40px;
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.28);font-size:16px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .15s;
+}
+#__demo_close:hover{color:rgba(255,255,255,.7);}
+@media(max-width:560px){
+  #__demo_inner{padding:7px 44px 7px 14px;gap:6px;}
+  #__demo_text{font-size:11px;flex:1 1 100%;order:3;}
+  #__demo_dot,#__demo_label{order:1;}
+  #__demo_divider{order:2;}
+  #__demo_links{order:4;}
+}
+</style>
+<div id="__demo_spacer"></div>
+<div id="__demo_notice" role="banner" aria-label="Demo notice">
+  <div id="__demo_inner">
+    <span id="__demo_dot"></span>
+    <span id="__demo_label">Demo</span>
+    <span id="__demo_divider">/</span>
+    <span id="__demo_text">Unofficial remake &mdash; not the real website. All content &amp; trademarks belong to their owners.</span>
+    <div id="__demo_links">
+      <a href="https://benedictjaros.com/impressum" target="_blank" rel="noopener noreferrer">Impressum</a>
+      <span id="__demo_link_sep">&middot;</span>
+      <a href="https://benedictjaros.com/datenschutz" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+    </div>
+  </div>
+  <button id="__demo_close" aria-label="Close demo notice">&#x2715;</button>
+</div>
+<script>
+(function () {
+  var spacer = document.getElementById('__demo_spacer');
+  var b = document.getElementById('__demo_notice');
+  var x = document.getElementById('__demo_close');
+  if (!b || !spacer) return;
+  function sync() { spacer.style.height = b.offsetHeight + 'px'; }
+  function hide() {
+    b.style.display = 'none'; spacer.style.height = '0';
+    try { sessionStorage.setItem('__demo_closed', '1'); } catch (e) {}
+  }
+  try { if (sessionStorage.getItem('__demo_closed')) { b.style.display = 'none'; spacer.style.height = '0'; return; } } catch (e) {}
+  sync();
+  window.addEventListener('resize', function () { if (b.style.display !== 'none') sync(); });
+  if (x) x.addEventListener('click', hide);
+}());
+</script>
+
+
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+    <header class="site-header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="#" class="logo">WINKLER</a>
+            
+            <nav class="desktop-nav">
+                <a href="#tueren" class="nav-link">Türen</a>
+                <a href="#meister" class="nav-link">Meister</a>
+                <a href="#produktion" class="nav-link">Produktion</a>
+                <a href="#kontakt" class="nav-link">Kontakt</a>
+                <button class="nav-link" onclick="openModal('Handwerkerbonus')">Bonus</button>
+            </nav>
+
+            <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-overlay">
+        <ul class="mobile-nav-list">
+            <li class="mobile-nav-item"><a href="#tueren" class="mobile-nav-link">Türen</a></li>
+            <li class="mobile-nav-item"><a href="#meister" class="mobile-nav-link">Meister</a></li>
+            <li class="mobile-nav-item"><a href="#produktion" class="mobile-nav-link">Produktion</a></li>
+            <li class="mobile-nav-item"><a href="#kontakt" class="mobile-nav-link">Kontakt</a></li>
+            <li class="mobile-nav-item"><button class="mobile-nav-link" onclick="openModal('Handwerkerbonus')">Bonus</button></li>
+        </ul>
+    </div>
+
+    <main id="main">
+        <section class="hero">
+            <img src="https://www.winklertueren.at/wp-content/uploads/2017/06/Tischlerei-Winkler-Produktion-500x500.jpg" alt="Tischlerei Werkstatt" class="hero-img">
+            <div class="hero-overlay-text">MEISTERHANDWERK</div>
+            <div class="container hero-content">
+                <h1 class="hero-title">Meistertischlerei Winkler – Made in Mondseeland.</h1>
+                <p class="hero-subtitle">Präzision in jedem Detail. Türen für Generationen.</p>
+                <button class="btn" onclick="openModal('Handwerkerbonus')">
+                    Handwerkerbonus 20% sparen <i data-lucide="arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <div class="ticker-item">Neu: Brandschutztüren EI30 zertifiziert</div>
+                <div class="ticker-item">Massivholz aus regionaler Forstwirtschaft</div>
+                <div class="ticker-item">Handwerkerbonus 2024 jetzt sichern</div>
+                <div class="ticker-item">Individuelle Planung im Mondseeland</div>
+                <div class="ticker-item">Neu: Brandschutztüren EI30 zertifiziert</div>
+                <div class="ticker-item">Massivholz aus regionaler Forstwirtschaft</div>
+                <div class="ticker-item">Handwerkerbonus 2024 jetzt sichern</div>
+                <div class="ticker-item">Individuelle Planung im Mondseeland</div>
+            </div>
+        </div>
+
+        <section id="tueren" class="section">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="section-label">Unsere Expertise</span>
+                    <h2>Die 6 Säulen unserer Fertigung</h2>
+                    <p>Qualität, die man sehen und fühlen kann. Jede Tür ist ein Unikat aus unserer Meisterwerkstatt im Salzkammergut.</p>
+                </header>
+                
+                <div class="pillars-grid">
+                    <div class="pillar-card reveal" style="--i:0">
+                        <div class="pillar-header">
+                            <span class="pillar-num">01</span>
+                            <h3 class="pillar-title">Vollbautüren</h3>
+                        </div>
+                        <p class="text-sm">Höchste Formstabilität und exzellenter Schallschutz durch massiven Kernaufbau.</p>
+                    </div>
+                    <div class="pillar-card reveal" style="--i:1">
+                        <div class="pillar-header">
+                            <span class="pillar-num">02</span>
+                            <h3 class="pillar-title">Massivholztüren</h3>
+                        </div>
+                        <p class="text-sm">Echtes Holz in seiner edelsten Form. Ausdrucksstark, natürlich und langlebig.</p>
+                    </div>
+                    <div class="pillar-card reveal" style="--i:2">
+                        <div class="pillar-header">
+                            <span class="pillar-num">03</span>
+                            <h3 class="pillar-title">Glastüren</h3>
+                        </div>
+                        <p class="text-sm">Transparenz und Licht für moderne Wohnkonzepte mit präzisen Beschlägen.</p>
+                    </div>
+                    <div class="pillar-card reveal" style="--i:3">
+                        <div class="pillar-header">
+                            <span class="pillar-num">04</span>
+                            <h3 class="pillar-title">Oberflächen</h3>
+                        </div>
+                        <p class="text-sm">Von handgeölt bis hochglanzlackiert – Haptik, die Ihre Sinne berührt.</p>
+                    </div>
+                    <div class="pillar-card reveal" style="--i:4">
+                        <div class="pillar-header">
+                            <span class="pillar-num">05</span>
+                            <h3 class="pillar-title">Brandschutztüren</h3>
+                        </div>
+                        <p class="text-sm">Geprüfte Sicherheit nach höchsten Standards, ohne Abstriche beim Design.</p>
+                    </div>
+                    <div class="pillar-card reveal" style="--i:5">
+                        <div class="pillar-header">
+                            <span class="pillar-num">06</span>
+                            <h3 class="pillar-title">Preis & Leistung</h3>
+                        </div>
+                        <p class="text-sm">Ehrliches Handwerk zu fairen Konditionen. Transparent und verlässlich.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="meister" class="meister-section">
+            <div class="meister-img-wrapper reveal">
+                <img src="https://www.winklertueren.at/wp-content/uploads/2015/02/Christian-Winkler-Mondsee-Tischlerei-300x278.jpg" alt="Christian Winkler" class="meister-img">
+            </div>
+            <div class="meister-content reveal">
+                <span class="section-label">Meisterstück</span>
+                <h2>Handwerk mit Herz</h2>
+                <p class="quote">"Holz ist für uns mehr als nur ein Material. Es ist Leidenschaft. Jede Tür, die unsere Werkstatt verlässt, trägt die Handschrift unserer Erfahrung."</p>
+                <div class="signature">Christian Winkler</div>
+            </div>
+        </section>
+
+        <section id="produktion" class="section">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="section-label">Details</span>
+                    <h2>Präzision im Fokus</h2>
+                </header>
+                
+                <div class="details-grid">
+                    <div class="detail-item detail-lg reveal" style="--i:0">
+                        <img src="https://www.winklertueren.at/wp-content/uploads/2017/06/Tischlerei-Winkler-Produktion-500x500.jpg" alt="Werkstatt Produktion">
+                    </div>
+                    <div class="detail-item detail-sm reveal" style="--i:1">
+                        <img src="https://www.winklertueren.at/wp-content/uploads/2022/11/katze-treppe-winkler-scaled-273x273.jpg" alt="Detail Treppe">
+                    </div>
+                    <div class="detail-item detail-full reveal" style="--i:2">
+                        <img src="https://www.winklertueren.at/wp-content/uploads/2022/11/t%C3%BCre-beschl%C3%A4ge-273x273.jpg" alt="Beschläge Detail">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontakt" class="section" style="background: var(--color-surface); border-top: 1px solid rgba(0,0,0,0.05);">
+            <div class="container">
+                <div class="meister-section" style="background: none;">
+                    <div class="meister-content reveal" style="padding-left: 0;">
+                        <h2>Ihr Projekt</h2>
+                        <p>Planen Sie einen Neubau oder eine Sanierung? Wir beraten Sie persönlich und individuell vor Ort oder in unserer Tischlerei.</p>
+                        
+                        <div style="margin-top: var(--space-8);">
+                            <div class="contact-row">
+                                <i data-lucide="map-pin"></i>
+                                <span>Irrsberg 21, 5310 St. Lorenz</span>
+                            </div><br>
+                            <div class="contact-row">
+                                <i data-lucide="phone"></i>
+                                <span>+43 (0) 6232 / 12345</span>
+                            </div><br>
+                            <div class="contact-row">
+                                <i data-lucide="mail"></i>
+                                <span>office@winklertueren.at</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="meister-content reveal" style="padding-right: 0;">
+                        <form onsubmit="event.preventDefault(); openModal('Anfrage gesendet');" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <input type="text" placeholder="Name" required style="padding: 1.25rem; border: 1px solid #eee; background: #fafafa; font-family: inherit;">
+                            <input type="email" placeholder="E-Mail" required style="padding: 1.25rem; border: 1px solid #eee; background: #fafafa; font-family: inherit;">
+                            <textarea placeholder="Ihre Nachricht" rows="4" style="padding: 1.25rem; border: 1px solid #eee; background: #fafafa; font-family: inherit; resize: none;"></textarea>
+                            <label style="font-size: 0.8rem; display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer;">
+                                <input type="checkbox" required style="margin-top: 0.25rem; accent-color: var(--color-accent);">
+                                <span>Ich stimme der Verarbeitung meiner Daten gemäß der Datenschutzerklärung zu. [erforderlich]</span>
+                            </label>
+                            <button type="submit" class="btn">Nachricht senden</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <button class="sticky-bonus" onclick="openModal('Handwerkerbonus')">
+        <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i> 20% Bonus sichern
+    </button>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo">WINKLER</span>
+                    <p class="footer-tagline">Meisterqualität aus dem Mondseeland seit Generationen. Wir bauen Türen fürs Leben.</p>
+                    <div class="social-row">
+                        <a href="#" class="social-btn" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="social-btn" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Menü</h4>
+                    <ul class="footer-links">
+                        <li><a href="#tueren">Türen</a></li>
+                        <li><a href="#meister">Über uns</a></li>
+                        <li><a href="#produktion">Produktion</a></li>
+                        <li><a href="#kontakt">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Kontakt</h4>
+                    <div class="contact-row">
+                        <i data-lucide="map-pin"></i>
+                        <span>Irrsberg 21, 5310 St. Lorenz</span>
+                    </div><br>
+                    <div class="contact-row">
+                        <i data-lucide="phone"></i>
+                        <span>+43 6232 12345</span>
+                    </div><br>
+                    <div class="contact-row">
+                        <i data-lucide="mail"></i>
+                        <span>office@winklertueren.at</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Winkler — All original content, images & trademarks are property of their respective owners. Website rebuilt by Benedict Jaros.</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <button onclick="openLegalModal()">Impressum</button>
+                    <button onclick="openLegalModal()">Datenschutz</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="placeholder-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card">
+            <h2 id="modal-title" class="pillar-title" style="margin-bottom: 1rem;">Feature</h2>
+            <p style="color: var(--color-text-muted); margin-bottom: 2rem;">Diese Funktion wird verfügbar sein, sobald die Website live geht. Kontaktieren Sie uns in der Zwischenzeit – wir freuen uns auf Sie.</p>
+            <button class="btn" onclick="closeModal()">Schließen</button>
+        </div>
+    </div>
+
+    <div id="legal-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="legal-title">
+        <div class="modal-card">
+            <h2 id="legal-title" class="pillar-title" style="margin-bottom: 1rem;">Rechtliche Hinweise</h2>
+            <p style="color: var(--color-text-muted); margin-bottom: 1.5rem;">
+                Diese Website ist ein Demo-Remake und wurde nicht von oder für das Unternehmen erstellt. Die Inhalte dienen ausschließlich Demonstrationszwecken.<br><br>
+                Für unsere eigenen rechtlichen Informationen:
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem;">
+                <a href="https://benedictjaros.com/impressum" target="_blank" style="color: var(--color-accent); text-decoration: underline; font-weight: 700;">Impressum</a>
+                <a href="https://benedictjaros.com/datenschutz" target="_blank" style="color: var(--color-accent); text-decoration: underline; font-weight: 700;">Datenschutz</a>
+            </div>
+            <button class="btn" onclick="closeLegalModal()">Schließen</button>
+        </div>
+    </div>
+
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="container cookie-inner">
+            <p class="text-sm">Wir nutzen Cookies, um die Nutzererfahrung zu verbessern.</p>
+            <div style="display: flex; gap: 1.5rem;">
+                <button onclick="setConsent(false)" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Ablehnen</button>
+                <button onclick="setConsent(true)" style="background: white; color: var(--color-accent); padding: 0.6rem 1.25rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;">Akzeptieren</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // Mobile Nav
+        const navToggle = document.querySelector('.nav-toggle');
+        const mobileOverlay = document.querySelector('.mobile-overlay');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function toggleMenu() {
+            const active = mobileOverlay.classList.toggle('is-active');
+            navToggle.setAttribute('aria-expanded', active);
+            document.body.style.overflow = active ? 'hidden' : '';
+        }
+
+        navToggle.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(l => l.addEventListener('click', toggleMenu));
+
+        // Scroll Reveal
+        const observerOptions = { threshold: 0.12 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transitionDelay = `${(i % 3) * 0.1}s`;
+            observer.observe(el);
+        });
+
+        // Modals
+        function openModal(title) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('placeholder-modal').classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('placeholder-modal').classList.remove('is-active');
+            if (!document.querySelector('.mobile-overlay.is-active')) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function openLegalModal() {
+            document.getElementById('legal-modal').classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLegalModal() {
+            document.getElementById('legal-modal').classList.remove('is-active');
+            document.body.style.overflow = '';
+        }
+
+        window.addEventListener('keydown', e => {
+            if(e.key === 'Escape') { closeModal(); closeLegalModal(); }
+        });
+        
+        document.querySelectorAll('.modal-overlay').forEach(m => {
+            m.addEventListener('click', e => { if(e.target === m) { closeModal(); closeLegalModal(); }});
+        });
+
+        // Cookie Banner
+        function setConsent(val) {
+            localStorage.setItem('cookie_consent', val);
+            document.getElementById('cookie-banner').classList.remove('is-active');
+        }
+
+        window.addEventListener('load', () => {
+            if(!localStorage.getItem('cookie_consent')) {
+                setTimeout(() => document.getElementById('cookie-banner').classList.add('is-active'), 2000);
+            }
+        });
+    </script>
+</body>
+</html>
